@@ -4,7 +4,7 @@
 
 package main
 
-// This file contains api auxilary related functions an user
+// This file contains api related auxiliary functions an user
 // of 'metrics' api may find helpful when verifying its compliance to its spec.
 
 import (
@@ -164,10 +164,8 @@ func (moc *MObjCol) VerifyEusrInMo(email string, metrics []string) (err Meterror
 		return MetError{MeusrNotFoundInMOC, 0,
 			fmt.Errorf("Eusr:%q NOT-FOUND", email), fn.CurBase()}
 	}
-	if err = moc.EusrMetricsMatch(email, metrics); err != nil {
-		return err
-	}
-	return nil
+	err = moc.EusrMetricsMatch(email, metrics)
+	return err
 }
 
 // DumpMObjCol - dumps via MarshalIndent the "moc" with 'pfix'.

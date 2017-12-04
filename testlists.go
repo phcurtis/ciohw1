@@ -84,7 +84,7 @@ var mocintegchkTS = func(url1 string, reset bool, verblvl int) (string, testsMet
 		name,
 		"Verifying: Integrity (a sanity check) of the Metrics Object Collection",
 		[]testArgs{
-			testArgs{"T01-MObjColItegChk............", MObjColItegChk, fMObjColItegChk, MnoError,
+			{"T01-MObjColItegChk............", MObjColItegChk, fMObjColItegChk, MnoError,
 				url1, reset, verblvl, "", ""},
 		},
 	}
@@ -97,19 +97,19 @@ var apibasicsTS = func(url1, email string, verblvl int) (string, testsMetricSet)
 		name,
 		"Verifying: can successfully exercise all Metrics API basics",
 		[]testArgs{
-			testArgs{"T01-GetMObjCol................", GetMObjCol, fGetMObjCol, MnoError,
+			{"T01-GetMObjCol................", GetMObjCol, fGetMObjCol, MnoError,
 				url1, verblvl > 3, "", verblvl > 3, ""},
 
-			testArgs{"T02a-PostEusrMetrics-noMetrics.", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02a-PostEusrMetrics-noMetrics.", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 
-			testArgs{"T02b-GetEusrMetrics-verify.....", VerifyEusr, fVerifyEusr, MnoError,
+			{"T02b-GetEusrMetrics-verify.....", VerifyEusr, fVerifyEusr, MnoError,
 				url1, gm(email, 1), []string{}, "", ""},
 
-			testArgs{"T02c-PutEusrMetric-delivered...", PutEusrMetric, fPutEusrMetric, MnoError,
+			{"T02c-PutEusrMetric-delivered...", PutEusrMetric, fPutEusrMetric, MnoError,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mdelivered), []string{Mdelivered}, ""},
 
-			testArgs{"T02d-DeleteEusrMetric-verify...", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
+			{"T02d-DeleteEusrMetric-verify...", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mdelivered), []string{}, verblvl},
 		},
 	}
@@ -122,10 +122,10 @@ var dupusersTS = func(url1, email string) (string, testsMetricSet) {
 		name,
 		"Verifying: duplicate users (by email address) not allowed",
 		[]testArgs{
-			testArgs{"T01a-PostEusrMetrics-noMetrics.........", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T01a-PostEusrMetrics-noMetrics.........", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 
-			testArgs{"T01b-PostEusrMetrics-noMetrics-dupuser.", PostEusrMetrics, fPostEusrMetrics, MerrScodeBadRequest,
+			{"T01b-PostEusrMetrics-noMetrics-dupuser.", PostEusrMetrics, fPostEusrMetrics, MerrScodeBadRequest,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 		},
 	}
@@ -138,40 +138,40 @@ var dupmetricsTS = func(url1, email string) (string, testsMetricSet) {
 		name,
 		"Verifying: duplicate metrics not allowed",
 		[]testArgs{
-			testArgs{"T01a-createUser-noMetrics......", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T01a-createUser-noMetrics......", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 
-			testArgs{"T01b-Put-delivered.............", PutEusrMetric, fPutEusrMetric, MnoError,
+			{"T01b-Put-delivered.............", PutEusrMetric, fPutEusrMetric, MnoError,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mdelivered), []string{Mdelivered}, ""},
 
-			testArgs{"T01c-Put-delivered again(dup)..", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T01c-Put-delivered again(dup)..", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mdelivered), []string{Mdelivered}, ""},
 
-			testArgs{"T02-createUser-spammed-twice...", PostEusrMetrics, fPostEusrMetrics, MerrScodeBadRequest,
+			{"T02-createUser-spammed-twice...", PostEusrMetrics, fPostEusrMetrics, MerrScodeBadRequest,
 				url1, GenMetricsJSONStr(gm(email, 2), []string{Mspammed, Mspammed}), gm(email, 2), []string{Mspammed}, ""},
 
-			testArgs{"T03a-createUser-withAllMetrics..", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T03a-createUser-withAllMetrics..", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 3), MetricsPossible[:]), gm(email, 3), MetricsPossible[:], ""},
 
-			testArgs{"T03b-Put-bounced again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03b-Put-bounced again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Mbounced), MetricsPossible[:], ""},
 
-			testArgs{"T03c-Put-clicked again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03c-Put-clicked again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Mclicked), MetricsPossible[:], ""},
 
-			testArgs{"T03d-Put-delivered again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03d-Put-delivered again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Mdelivered), MetricsPossible[:], ""},
 
-			testArgs{"T03e-Put-opened again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03e-Put-opened again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Mopened), MetricsPossible[:], ""},
 
-			testArgs{"T03f-Put-sent again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03f-Put-sent again(dup).....", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Msent), MetricsPossible[:], ""},
 
-			testArgs{"T03g-Put-spammed again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03g-Put-spammed again(dup)...", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Mspammed), MetricsPossible[:], ""},
 
-			testArgs{"T03e-Put-suppressed again(dup)", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T03e-Put-suppressed again(dup)", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 3), Gen1MetricJSONStr(gm(email, 3), Msuppressed), MetricsPossible[:], ""},
 		},
 	}
@@ -184,16 +184,16 @@ var invalidmetTS = func(url1, email string) (string, testsMetricSet) {
 		name,
 		"Verifying: invalid metrics not allowed",
 		[]testArgs{
-			testArgs{"T01a-createUser-noMetrics.........", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T01a-createUser-noMetrics.........", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 
-			testArgs{"T01b-Put-invalidmet...............", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T01b-Put-invalidmet...............", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), "invalidmet"), []string{}, ""},
 
-			testArgs{"T01c-Put-invalidmet...............", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
+			{"T01c-Put-invalidmet...............", PutEusrMetric, fPutEusrMetric, MerrScodeBadRequest,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), "Spammed"), []string{"Spammed"}, ""},
 
-			testArgs{"T01d-GetEusrMetrics-shouldHaveNone", VerifyEusr, fVerifyEusr, MnoError,
+			{"T01d-GetEusrMetrics-shouldHaveNone", VerifyEusr, fVerifyEusr, MnoError,
 				url1, gm(email, 1), []string{}, "", ""},
 		},
 	}
@@ -206,13 +206,13 @@ var delmetricsTS = func(url1, email string, verblvl int) (string, testsMetricSet
 		name,
 		"Verifying: delete tracked metrics do as such",
 		[]testArgs{
-			testArgs{"T01a-createUser-bounced-spammed.", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T01a-createUser-bounced-spammed.", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{Mbounced, Mspammed}), gm(email, 1), []string{Mbounced, Mspammed}, ""},
 
-			testArgs{"T01b-DeleteMetric-bounced.......", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
+			{"T01b-DeleteMetric-bounced.......", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mbounced), []string{Mspammed}, verblvl},
 
-			testArgs{"T01c-DeleteMetric-spammed.......", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
+			{"T01c-DeleteMetric-spammed.......", DelEusrMetricVerify, fDelEusrMetricVerify, MnoError,
 				url1, gm(email, 1), Gen1MetricJSONStr(gm(email, 1), Mspammed), []string{}, verblvl},
 		},
 	}
@@ -225,31 +225,31 @@ var metallusrsTS = func(url1, email string) (string, testsMetricSet) {
 		name,
 		"Verifying: that adding 8 users with diff metrics and as such so exist in Metrics Object Col ...",
 		[]testArgs{
-			testArgs{"T01-MObjColItegChk.with reset..", MObjColItegChk, fMObjColItegChk, MnoError,
+			{"T01-MObjColItegChk.with reset..", MObjColItegChk, fMObjColItegChk, MnoError,
 				url1, true, 0, "", ""},
 
-			testArgs{"T02a-createUser-noMetrics......", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02a-createUser-noMetrics......", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 1), []string{}), gm(email, 1), []string{}, ""},
 
-			testArgs{"T02b-createUser-bounced...", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02b-createUser-bounced...", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 2), []string{Mbounced}), gm(email, 2), []string{Mbounced}, ""},
 
-			testArgs{"T02c-createUser-clicked...", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02c-createUser-clicked...", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 3), []string{Mclicked}), gm(email, 3), []string{Mclicked}, ""},
 
-			testArgs{"T02d-createUser-delivered.", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02d-createUser-delivered.", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 4), []string{Mdelivered}), gm(email, 4), []string{Mdelivered}, ""},
 
-			testArgs{"T02e-createUser-opened....", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02e-createUser-opened....", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 5), []string{Mopened}), gm(email, 5), []string{Mopened}, ""},
 
-			testArgs{"T02f-createUser-sent......", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02f-createUser-sent......", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 6), []string{Msent}), gm(email, 6), []string{Msent}, ""},
 
-			testArgs{"T02g-createUser-spammed...", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02g-createUser-spammed...", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 7), []string{Mspammed}), gm(email, 7), []string{Mspammed}, ""},
 
-			testArgs{"T02h-createUser-suppressed", PostEusrMetrics, fPostEusrMetrics, MnoError,
+			{"T02h-createUser-suppressed", PostEusrMetrics, fPostEusrMetrics, MnoError,
 				url1, GenMetricsJSONStr(gm(email, 8), []string{Msuppressed}), gm(email, 8), []string{Msuppressed}, ""},
 		},
 	}
@@ -282,7 +282,6 @@ func init() {
 // This needs to be called with tsname = "" during func init()
 func setTestsMetricSetFullList(tsname, url1, email string, verblvl, mociVerblvl int, mociReset bool) {
 	if tsname == "" {
-		email = ""
 	} else {
 		if _, ok := tsMapEmail[tsname]; !ok {
 			panic(fmt.Sprintf("unknown tsname=%q func:%s", tsname, fn.CurBase()))

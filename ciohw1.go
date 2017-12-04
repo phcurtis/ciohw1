@@ -39,7 +39,7 @@ import (
 )
 
 // Version of this program
-const Version = "0.01b"
+const Version = "0.01c"
 
 func main() {
 	prelimsCLI()
