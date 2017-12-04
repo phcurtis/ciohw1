@@ -1,0 +1,32 @@
+*** TODOS/NOTES: TBD="To Be Determined" **********************
+
+ 1) TBD:email addresses in this program currently do differeniate based on case
+  ... so email@x.com is different than email@X.com and not tested for duplicates
+  ... and also Email@x.com is not considered a duplicate versus email@x.com
+
+ 2) TBD:if many email users are to be in metrics object col... then a better lookup to
+  ... validate its integrity is in order ... perhaps go maps for email addresses could be used
+  ... or sorting the email addresses and using a binary search lookup
+
+ 3) TBD: the following go lines might be useful but since spec didn't list json error message doing so
+    should require optional CLI flag since one can not assume it will remain or expected
+    to work as such.
+    type MErrorMsg struct {
+	    Message string `json:"message"`
+    }
+    type MErrorResObj struct {
+	    MerrorRes []MErrorMsg `json:"error"`
+    }
+
+4) if made into a package other than main need to re-evaluate public vars, funcs etc. 
+5) metrics where considered to be case-sensitive so if any not exact, this program
+   will consider that invalid and metric api should error.
+
+6) review code with possible refactoring and write test code for this test code leveraging "go test".
+
+7) also employ travis-ci or the like (jenkins, concourse, etc) 
+   especially if were to be automatically deployable for others usage.
+
+8) provide way to create x users with random metrics and errors and check against
+   metrics object collection for validity. Most of hooks are already in place.
+

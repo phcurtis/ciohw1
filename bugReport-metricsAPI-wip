@@ -1,0 +1,74 @@
+Bug Report: extracted from running (version=0.01) of ./ciohw1  
+7 FAILED occurences detected: on program invocation ./ciohw1 
+4 likely distinct bugs detected and other 3 related to the former.
+NOTE: since spec listed lower case metrics in quotes and did NOT say otherwise,
+I erred on considering that and non-lower case ones as invalid ... the change for
+this should be quite easy to allowed them also to be valid ... i.e. SpaMmed is okay for spammed.
+
+*******************
+1) "Deleting an email-user's metric results in that email-user being no longer found in Metrics Obj Col."
+APIs-Involved: "DELETE /metrics/{email}", "GET /metrics/{email}"
+program-output-beg:
+LOG:    apibasics:Test:T02d-DeleteEusrMetric-verify...:errCode:205:(Eusr not found) ResCode:404 err:StatusCode>got:404 want:200 funcPar:github.com/phcurtis/ciohw1/api.go:206:main.GetEusrMetrics() resBody:{
+  "error": {
+    "message": "Metrics for e-171204131924-g2-apibasics-i0p1-1@metrics.com do not exist"
+  }
+}, Msg:ref:github.com/phcurtis/ciohw1/api.go:151:main.mapiControl.reqExec()
+LOG:    apibasics:Test:T02d-DeleteEusrMetric-verify...:FAILED
+program-output-end
+
+*******************
+2) "Duplicate metrics are allowed during an email-user creation" duplicate-metric: "spammed spammed"
+APIs-Involved: "POST /metrics"
+program-output-beg:
+LOG:    dupmetrics:Test:T02-createUser-spammed-twice...:goterr:<nil> wantErrCode:160(error http.statusCode='Bad Request')
+LOG:    dupmetrics:Test:T02-createUser-spammed-twice...:FAILED
+program-output-end
+
+*******************
+3) "Invalid metric is allowed"  invalid-metric: "invalidmet"
+program-output-beg:
+APIs-Involved: "PUT /metrics/{email}"
+LOG:    invalidmet:Test:T01b-Put-invalidmet...............:goterr:<nil> wantErrCode:160(error http.statusCode='Bad Request')
+LOG:    invalidmet:Test:T01b-Put-invalidmet...............:FAILED
+program-output-end
+
+******************
+4) "Metric Object Collection has wrong email-user metrics", also allowed "Spammed" (non-lower case)
+ and also shows that #3 bug residue in Metrics Object Collection is so affected.
+ APIs-involved: "PUT /metrics/{email}, "GET /metrics/{email}", "GET /metrics"
+program-output-beg:
+LOG:    invalidmet:Test:T01c-Put-invalidmet...............:goterr:<nil> wantErrCode:160(error http.statusCode='Bad Request')
+LOG:    invalidmet:Test:T01c-Put-invalidmet...............:FAILED
+program-output-end
+
+******************
+5) likely related to bug #4
+program-output-beg:
+LOG:    invalidmet:Test:T01d-GetEusrMetrics-shouldHaveNone:errCode:204:(Eusr metrics wrong) ResCode:0 err:got:[Spammed invalidmet] want:[], Msg:main.CompMetrics
+LOG:    invalidmet:Test:T01d-GetEusrMetrics-shouldHaveNone:FAILED
+program-output-end
+
+******************
+6) likely related to bug #1
+program-output-beg:
+LOG:    delmetrics:Test:T01b-DeleteMetric-bounced.......:errCode:205:(Eusr not found) ResCode:404 err:StatusCode>got:404 want:200 funcPar:github.com/phcurtis/ciohw1/api.go:206:main.GetEusrMetrics() resBody:{
+  "error": {
+    "message": "Metrics for e-171204131927-g6-delmetrics-i0p1-1@metrics.com do not exist"
+  }
+}, Msg:ref:github.com/phcurtis/ciohw1/api.go:151:main.mapiControl.reqExec()
+LOG:    delmetrics:Test:T01b-DeleteMetric-bounced.......:FAILED
+program-output-end
+
+******************
+7) likely related to bug #1
+program-output-beg:
+LOG:    delmetrics:Test:T01c-DeleteMetric-spammed.......:errCode:161:(error http.statusCode='Not Found') ResCode:404 err:StatusCode>got:404 want:200 funcPar:github.com/phcurtis/ciohw1/api.go:231:main.DeleteEusrMetric() resBody:{
+  "error": {
+    "message": "Metrics for e-171204131927-g6-delmetrics-i0p1-1@metrics.com do not exist"
+  }
+}, Msg:ref:github.com/phcurtis/ciohw1/api.go:151:main.mapiControl.reqExec()
+LOG:    delmetrics:Test:T01c-DeleteMetric-spammed.......:FAILED
+program-output-end
+
+LOG:Exiting: 7 of 36 Test(s) FAILED
