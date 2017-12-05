@@ -7,7 +7,7 @@ RUN EXAMPLES:
 ./ciohw1 -iterations=2      // do 2 iterations
 ./ciohw1 -tsnameslistrunseq=apibasics,dupmetrics // run 'apibasics' followed by 'dupmetrics'
 ./ciohw1 -tsnameslistrunseq=mocintegchk -verblvl=5 -mocichkverblvl=5 // do mo collection integrity check
-./ciohw1 -mainfnlogcondtrace  // get time duration of "main", etc
+./ciohw1 -mainfnlogcondtrace  // print time duration of "main", etc
 ./ciohw1 -mocdumpatend  // dump the metrics object collection at end of program
 ./ciohw1 -tsnameslistrunseq=invalidmet -reqargsdump -resbodydump // run invalidmet test and dump http request args and response body (json) 
 

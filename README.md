@@ -9,7 +9,7 @@ that list see -tsnameslist -tsnamelistrunseq options] For a multitude of
 options invoke with option -h for more info. One immediate tip increasing X
 in -verblvl=X option will provide more "inside" info including key items and
 the why of failures. To see what tests are running use >0 for X with
--verblvl i.e. ./ciohw1 -verblvl=1 If all the requested tests pass then the
+-verblvl=X i.e. ./ciohw1 -verblvl=1 If all the requested tests pass then the
 program exit value will be zero, for other possible values ... grep for
 os.Exit and log.Fatal.
 

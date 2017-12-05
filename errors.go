@@ -19,7 +19,7 @@ const (
 	//_ MetErrCode = iota
 	MnoError MetErrCode = 0 // always set to zero
 
-	// always some gaps for future growth by category/types...
+	// allow some gaps for future growth by category/types...
 	// so it lends to errors codes being grouped and less subject to
 	// today's existing codes values from changing.
 	MerrBodyReadAll       MetErrCode = 100
